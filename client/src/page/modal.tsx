@@ -8,6 +8,21 @@ type modalprops = {
 const Modal = ({setCm}: modalprops) => {
     const [title, setTitle] = useState('');
     const [text, setText] = useState('');
+    const url: string = 'http://localhost:3001';
+    const sendData = () => {
+        fetch(`${url}/post`, {
+            method: 'post',
+            mode: 'cors',
+            credentials: 'same-origin',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({title, text})
+        });
+        setTitle('');
+        setText('');
+        setCm(false);
+    }
 
     return (
         <>
@@ -21,7 +36,7 @@ const Modal = ({setCm}: modalprops) => {
                         <h3>Detail</h3>
                         <textarea className='detail' value={text} onChange={(e) => setText(e.target.value)}></textarea>
                     </div>
-                    <h3 className='submit'>complete</h3>
+                    <h3 className='submit' onClick={() => sendData()}>complete</h3>
                 </div>
             </div>
         </>
