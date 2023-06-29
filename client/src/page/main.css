@@ -32,17 +32,18 @@
     height: 600px;
     background: #eeeeee;
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
+    overflow: scroll;
 }
 
 .mem_wrap {
-    width: 160px;
-    height: 320px;
+    width: 180px;
+    height: 240px;
     background-color: #efefa0;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 10px;
+    margin: 10px auto 10px auto;
     border: solid black 1px;
 }
 
@@ -69,10 +70,13 @@
 
 .mem_contents_wrap {
     width: 160px;
-    height: 320px;
+    height: 180px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    &:hover {
+        cursor: pointer;
+    }
 }
 
 .mem_title {
@@ -90,5 +94,16 @@
 .mem_text {
     width: 160px;
     overflow-wrap: break-word;
+    overflow: hidden;
     padding: 5px;
+}
+
+.dummy_wrap {
+    width: 180px;
+    height: 240px;
+    background-color: #eeeeee;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px auto 10px auto;
 }

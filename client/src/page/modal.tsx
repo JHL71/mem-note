@@ -3,9 +3,10 @@ import './modal.css';
 
 type modalprops = {
     setCm: React.Dispatch<React.SetStateAction<boolean>>
+    setRenew: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const Modal = ({setCm}: modalprops) => {
+const Modal = ({setCm, setRenew}: modalprops) => {
     const [title, setTitle] = useState('');
     const [text, setText] = useState('');
     const url: string = 'http://localhost:3001';
@@ -22,6 +23,7 @@ const Modal = ({setCm}: modalprops) => {
         setTitle('');
         setText('');
         setCm(false);
+        setRenew(true);
     }
 
     return (
