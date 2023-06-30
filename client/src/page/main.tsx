@@ -1,8 +1,15 @@
 import { useEffect, useState } from 'react';
 import './main.css';
-import Modal from './modal';
+import { Modal, Edit } from '../page';
+
 
 interface memI {
+    title: string,
+    text: string
+}
+
+interface curMem {
+    id: string,
     title: string,
     text: string
 }
@@ -10,14 +17,20 @@ interface memI {
 const Main = () => {
     const url = 'http://localhost:3001'
     const [cm, setCm] = useState(false);
+    const [em, setEm] = useState(false);
     const [memList, setMemList] = useState<{[keys: number]: memI}>({});
     const [renew, setRenew] = useState(true);
+    const cur: curMem = {
+        id: '',
+        title: '',
+        text: ''
+    };
 
     const dummyList = (num: number) => {
         const arr = Array(num).fill(0);
         return arr.map((_, i) => {
             return (
-                <div key={`a${i}`} className='dummy_wrap'>
+                <div key={`id${Math.random().toString(16).slice(2)}`} className='dummy_wrap'>
                 </div>
             )
         })
@@ -45,6 +58,7 @@ const Main = () => {
             .then(re => setMemList(re.data));
             setRenew(false);
         }
+        console.log('check');
     }, [renew])
 
     return (
@@ -54,22 +68,31 @@ const Main = () => {
                     ? <Modal setCm={setCm} setRenew={setRenew} />
                     : <></>
             }
+            {
+                em
+                    ? <Edit idx={cur.id} title={cur.title} text={cur.text} setEm={setEm} setRenew={setRenew}/>
+                    : <></>
+            }
             <div className="wrap">
                 <div className='button_wrap'>
                     <div className='button' onClick={() => setCm(true)}>new</div>
                 </div>
                 <div className='contents_box'>
                     {
-                        Object.keys(memList).map((el, i) => {
+                        Object.keys(memList).map((el) => {
                             const title = memList[Number(el)].title;
                             const text = memList[Number(el)].text;
                             return (
-                                <div key={i} className='mem_wrap'>
+                                <div key={`id${Math.random().toString(16).slice(3)}`} className='mem_wrap'>
                                     <div className='mem_button_wrap'>
-                                        <div className='mem_button'>&middot;&middot;&middot;</div>
                                         <div className='mem_button' onClick={() => del(el)}>&times;</div>
                                     </div>
-                                    <div className='mem_contents_wrap'>
+                                    <div className='mem_contents_wrap' onClick={() => {
+                                        cur.id = el;
+                                        cur.title = title;
+                                        cur.text = text;
+                                        setEm(true);
+                                        }}>
                                         <h3 className='mem_title'>{title}</h3>
                                         <pre className='mem_text'>{text}</pre>
                                     </div>
