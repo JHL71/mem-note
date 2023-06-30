@@ -34,6 +34,12 @@ app.post('/post', (req: Request, res: Response) => {
     res.send({data: 'check'});
 })
 
+app.put('/put', (req: Request, res: Response) => {
+    const [idx, title, text] = [req.body.num, req.body.title, req.body.text];
+    mem[idx].title = title;
+    mem[idx].text = text;
+})
+
 app.delete('/delete', (req: Request, res: Response) => {
     const num = req.body.num;
     delete mem[num];
