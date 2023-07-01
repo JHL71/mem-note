@@ -8,23 +8,12 @@ interface memI {
     text: string
 }
 
-interface curMem {
-    id: string,
-    title: string,
-    text: string
-}
-
 const Main = () => {
     const url = 'http://localhost:3001'
     const [cm, setCm] = useState(false);
-    const [em, setEm] = useState(false);
+    const [em, setEm] = useState(-1);
     const [memList, setMemList] = useState<{[keys: number]: memI}>({});
     const [renew, setRenew] = useState(true);
-    const cur: curMem = {
-        id: '',
-        title: '',
-        text: ''
-    };
 
     const dummyList = (num: number) => {
         const arr = Array(num).fill(0);
@@ -58,7 +47,6 @@ const Main = () => {
             .then(re => setMemList(re.data));
             setRenew(false);
         }
-        console.log('check');
     }, [renew])
 
     return (
@@ -66,11 +54,6 @@ const Main = () => {
             {
                 cm
                     ? <Modal setCm={setCm} setRenew={setRenew} />
-                    : <></>
-            }
-            {
-                em
-                    ? <Edit idx={cur.id} title={cur.title} text={cur.text} setEm={setEm} setRenew={setRenew}/>
                     : <></>
             }
             <div className="wrap">
@@ -87,15 +70,15 @@ const Main = () => {
                                     <div className='mem_button_wrap'>
                                         <div className='mem_button' onClick={() => del(el)}>&times;</div>
                                     </div>
-                                    <div className='mem_contents_wrap' onClick={() => {
-                                        cur.id = el;
-                                        cur.title = title;
-                                        cur.text = text;
-                                        setEm(true);
-                                        }}>
+                                    <div className='mem_contents_wrap' onClick={() => setEm(Number(el))}>
                                         <h3 className='mem_title'>{title}</h3>
                                         <pre className='mem_text'>{text}</pre>
                                     </div>
+                                    {
+                                        em === Number(el)
+                                            ? <Edit idx={el} title={title} text={text} setEm={setEm} setRenew={setRenew}/>
+                                            : <></>
+                                    }
                                 </div>
                             )
                         })
